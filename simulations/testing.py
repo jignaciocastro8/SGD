@@ -20,14 +20,14 @@ for z, y in zip(y_ds, y_train):
     z[0][y] = 1
 
 # Testing model.
-nn = Network([28*28, 128, 128, 128, 10])
+nn = Network([28*28, 32, 32, 10])
 nn.build()
-sgd = SGD(learning_rate=2, train_x=x_ds, train_y=y_ds, model=nn)
+sgd = SGD(learning_rate=0.1, train_x=x_ds, train_y=y_ds, model=nn)
 
-losses = sgd.train(batch_size=64, iter_num=1000)
+losses, trajectory = sgd.train(batch_size=64, iter_num=1000)
 plt.plot(losses)
 #plt.yscale('log')
 plt.grid()
 plt.show()
 
-#print([np.argmax(nn.forward(x)) for x in x_ds] == [np.argmax(label) for label in labels])
+print([np.argmax(nn.forward(x)) for x in x_ds] == [np.argmax(label) for label in y_ds])

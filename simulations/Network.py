@@ -1,6 +1,5 @@
 import tensorflow as tf
 class Network:
-    # One hidden layers Neural Network ([])
     def __init__(self, layers):
         self.parameters = []
         self.layers = layers

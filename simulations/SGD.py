@@ -19,6 +19,7 @@ class SGD:
     def train(self, batch_size, iter_num):
         # Implements training loop.
         losses = []
+        trajectory = []
         n = len(self.train_x)
         for _ in tqdm(range(iter_num)):
             i = np.random.randint(n - batch_size)
@@ -29,8 +30,8 @@ class SGD:
                 target = self.loss(x, y)
             losses.append(target)
             grads = tape.gradient(target, self.model.get_parameters())
-            self.apply_gradients(grads, self.model.get_parameters())
-        return losses
+            trajectory.append(self.apply_gradients(grads, self.model.get_parameters()))
+        return losses, trajectory
         
     def apply_gradients(self, gradients, variables):
         # Applies gradients to variables according to SGD iterations.
@@ -39,4 +40,5 @@ class SGD:
         for w, grad in zip(variables, gradients):
             new_parameters.append(w - self.learning_rate * grad)
         self.model.set_parameters(new_parameters)
+        return self.model.get_parameters()
 
